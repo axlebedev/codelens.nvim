@@ -19,18 +19,12 @@ local defaults = {
 			return ""
 		end,
 		references = function(count)
-                        return count .. ""
+                        return " " .. count .. " "
 		end,
 		implements = function(count)
 			return ""
 		end,
-		git_authors = function(latest_author, count)
-			if latest_author == nil then
-				return ""
-			end
-
-			return latest_author .. (count - 1 == 0 and "" or (" + " .. count - 1))
-		end,
+		git_authors = nil,
 	},
 	separator = " | ",
 	decorator = function(line)
@@ -194,10 +188,10 @@ function M.create_string(counting)
 		append_with(counting.reference, cfg.sections.references)
 
 		if text ~= "" then
-			opts[#opts + 1] = { " ", "SymbolUsageRounding" }
+			opts[#opts + 1] = { "", "SymbolUsageRounding" }
 			opts[#opts + 1] = { "󰌹 ", "SymbolUsageRef" }
 			opts[#opts + 1] = { cfg.decorator(text), "SymbolUsageContent" }
-			opts[#opts + 1] = { " ", "SymbolUsageRounding" }
+			opts[#opts + 1] = { "", "SymbolUsageRounding" }
 			has = true
 		end
 	end
