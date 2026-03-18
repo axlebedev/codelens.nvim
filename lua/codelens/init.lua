@@ -19,10 +19,7 @@ local defaults = {
 			return ""
 		end,
 		references = function(count)
-			if count == 1 then
-				return count .. " usage"
-			end
-			return count .. " usages"
+                        return count .. ""
 		end,
 		implements = function(count)
 			return ""
@@ -197,10 +194,10 @@ function M.create_string(counting)
 		append_with(counting.reference, cfg.sections.references)
 
 		if text ~= "" then
-			opts[#opts + 1] = { "", "SymbolUsageRounding" }
+			opts[#opts + 1] = { " ", "SymbolUsageRounding" }
 			opts[#opts + 1] = { "󰌹 ", "SymbolUsageRef" }
 			opts[#opts + 1] = { cfg.decorator(text), "SymbolUsageContent" }
-			opts[#opts + 1] = { "", "SymbolUsageRounding" }
+			opts[#opts + 1] = { " ", "SymbolUsageRounding" }
 			has = true
 		end
 	end
