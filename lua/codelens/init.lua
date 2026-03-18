@@ -19,7 +19,7 @@ local defaults = {
 			return ""
 		end,
 		references = function(count)
-                        return " " .. count .. " "
+                        return "  " .. count .. " "
 		end,
 		implements = function(count)
 			return ""
