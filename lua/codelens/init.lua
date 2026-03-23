@@ -292,15 +292,15 @@ function M.display_lines(bufnr, query_results)
 				return vim.api.nvim_get_hl(0, { name = name })
 			end
 
-			vim.api.nvim_set_hl(0, "SymbolUsageRounding", { fg = h("CursorLine").bg, italic = true })
+                        vim.api.nvim_set_hl(0, "SymbolUsageRounding", { fg = h("CursorLine").bg, bg = nil, italic = true })
 			vim.api.nvim_set_hl(
 				0,
 				"SymbolUsageContent",
-				{ fg = h("Comment").fg, bg = "NONE", italic = true }
+				{ fg = h("Comment").fg, bg = nil, italic = true }
 			)
-			vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg = h("Function").fg, bg = "NONE", italic = true })
-			vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg = h("Type").fg, bg = "NONE", italic = true })
-			vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = h("@keyword").fg, bg = "NONE", italic = true })
+			vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg = h("Function").fg, bg = nil, italic = true })
+			vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg = h("Type").fg, bg = nil, italic = true })
+			vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = h("@keyword").fg, bg = nil, italic = true })
 
 			-- 定义一个高亮组，设置背景颜色为主题背景色，字体颜色为灰色
 			vim.cmd("highlight MyHighlightGroup guifg=grey guibg=NONE")
@@ -312,6 +312,8 @@ function M.display_lines(bufnr, query_results)
 
 					-- virt_lines_above = true,
 					virt_text_pos = "eol",
+
+                                        hl_mode = "combine",
 				})
 			end
 		end
