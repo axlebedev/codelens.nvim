@@ -470,7 +470,27 @@ function M.lsp_lens_toggle()
 	end
 end
 
-function M.procedure()
+local function throttle_trailing(fn, ms)
+  local timer = vim.loop.new_timer()
+  local last_args = nil
+  local is_throttling = false
+
+  return function(...)
+    last_args = {...} -- Always capture the latest arguments
+    if is_throttling then return end
+
+    is_throttling = true
+    timer:start(ms, 0, function()
+      is_throttling = false
+      -- Execute with the most recent arguments captured
+      vim.schedule(function()
+        fn(unpack(last_args))
+      end)
+    end)
+  end
+end
+
+function proc()
 	if M.config.enable == false then
 		M.lsp_lens_off()
 		return
@@ -497,6 +517,8 @@ function M.procedure()
 		end)
 	end
 end
+
+M.procedure = throttle_trailing(proc, 500)
 
 function M.setup(opts)
 	opts = opts or {}
