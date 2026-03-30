@@ -470,21 +470,19 @@ function M.lsp_lens_toggle()
 	end
 end
 
-local function throttle_trailing(fn, ms)
+local function debounce(fn, ms)
   local timer = vim.loop.new_timer()
-  local last_args = nil
-  local is_throttling = false
 
   return function(...)
-    last_args = {...} -- Always capture the latest arguments
-    if is_throttling then return end
+    local args = {...}
 
-    is_throttling = true
+    -- Stop the previous timer if it's still running
+    timer:stop()
+
+    -- Start a new timer; it will only fire if ms passes without a new call
     timer:start(ms, 0, function()
-      is_throttling = false
-      -- Execute with the most recent arguments captured
       vim.schedule(function()
-        fn(unpack(last_args))
+        fn(unpack(args))
       end)
     end)
   end
@@ -518,7 +516,7 @@ function proc()
 	end
 end
 
-M.procedure = throttle_trailing(proc, 500)
+M.procedure = debounce(proc, 200)
 
 function M.setup(opts)
 	opts = opts or {}
